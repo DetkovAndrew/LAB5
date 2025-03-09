@@ -1,5 +1,6 @@
 package Commands.ElementsOuterOperating;
 
+import CollectionManager.CollectionManager;
 import Commands.CommandInterface.CommandInterface;
 import SpaceMarine.SpaceMarine;
 
@@ -8,14 +9,15 @@ import java.util.Vector;
 public class InsertAtIndex implements CommandInterface {
     private final String name = "insert_at_index";
     private final String description = "вставить элемент на указанную позицию";
-    private final Vector<SpaceMarine> collection;
+    private final CollectionManager collectionManager;
 
-    public InsertAtIndex(Vector<SpaceMarine> collection) {
-        this.collection = collection;
+    public InsertAtIndex(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
     }
 
     @Override
     public void execute(String[] args) {
+        Vector<SpaceMarine> collection = collectionManager.getCollection();
         if (args.length < 2) {
             System.out.println("Использование: insert_at_index index id,name,x,y,health,achievements,weaponType,meleeWeapon,chapterName,parentLegion,marinesCount,world");
             return;

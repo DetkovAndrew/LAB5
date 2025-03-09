@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 public class CollectionManager {
-    private Vector<SpaceMarine> collection = new Vector<>();
+    private final Vector<SpaceMarine> collection = new Vector<>();
     private String filePath;
 
     public CollectionManager() {

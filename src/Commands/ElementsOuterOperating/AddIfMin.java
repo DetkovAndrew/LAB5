@@ -1,5 +1,6 @@
 package Commands.ElementsOuterOperating;
 
+import CollectionManager.CollectionManager;
 import Commands.CommandInterface.CommandInterface;
 import SpaceMarine.SpaceMarine;
 
@@ -9,14 +10,15 @@ import java.util.Vector;
 public class AddIfMin implements CommandInterface {
     private final String name = "add_if_min";
     private final String description = "добавить элемент, если он меньше минимального";
-    private final Vector<SpaceMarine> collection;
+    private final CollectionManager collectionManager;
 
-    public AddIfMin(Vector<SpaceMarine> collection) {
-        this.collection = collection;
+    public AddIfMin(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
     }
 
     @Override
     public void execute(String[] args) {
+        Vector<SpaceMarine> collection = collectionManager.getCollection();
         if (args.length < 1) {
             System.out.println("Использование: add_if_min id,name,x,y,health,achievements,weaponType,meleeWeapon,chapterName,parentLegion,marinesCount,world");
             return;

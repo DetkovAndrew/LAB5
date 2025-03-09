@@ -2,6 +2,8 @@ package SpaceMarine;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Random;
+import java.util.Vector;
 
 public class SpaceMarine implements Comparable<SpaceMarine>{
     private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -13,6 +15,9 @@ public class SpaceMarine implements Comparable<SpaceMarine>{
     private Weapon weaponType; //Поле может быть null
     private MeleeWeapon meleeWeapon; //Поле не может быть null
     private Chapter chapter; //Поле не может быть null
+
+    private static final int MIN_ID = 100000;
+    private static final int MAX_ID = 999999;
 
     public LocalDateTime date = LocalDateTime.now();
 
@@ -26,6 +31,21 @@ public class SpaceMarine implements Comparable<SpaceMarine>{
         this.weaponType = builder.weaponType;
         this.meleeWeapon = builder.meleeWeapon;
         this.chapter = builder.chapter;
+    }
+
+    public static int generateNextId(Vector<SpaceMarine> collection) {
+        Random random = new Random();
+        int maxAttempts = (MAX_ID - MIN_ID) + 1; // Максимум 900000 попыток
+
+        for (int attempt = 0; attempt < maxAttempts; attempt++) {
+            int randomId = random.nextInt(MAX_ID - MIN_ID + 1) + MIN_ID; // Случайное число от 100000 до 999999
+            boolean isIdTaken = collection.stream().anyMatch(marine -> marine.getId() != null && marine.getId().equals(randomId));
+            if (!isIdTaken) {
+                return randomId;
+            }
+        }
+
+        throw new IllegalStateException("Не удалось найти уникальный id в диапазоне от " + MIN_ID + " до " + MAX_ID);
     }
 
     @Override
@@ -166,5 +186,9 @@ public class SpaceMarine implements Comparable<SpaceMarine>{
 
     public Chapter getChapter() {
         return chapter;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

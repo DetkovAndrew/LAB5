@@ -1,5 +1,6 @@
 package Commands.ElementsInnerOperating;
 
+import CollectionManager.CollectionManager;
 import Commands.CommandInterface.CommandInterface;
 import SpaceMarine.SpaceMarine;
 
@@ -8,14 +9,15 @@ import java.util.Vector;
 public class UpdateId implements CommandInterface {
     private final String name = "update_id";
     private final String description = "обновить элемент по id";
-    private final Vector<SpaceMarine> collection;
+    private final CollectionManager collectionManager;
 
-    public UpdateId(Vector<SpaceMarine> collection) {
-        this.collection = collection;
+    public UpdateId(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
     }
 
     @Override
     public void execute(String[] args) {
+        Vector<SpaceMarine> collection = collectionManager.getCollection();
         if (args.length < 2) {
             System.out.println("Использование: update_id id id,name,x,y,health,achievements,weaponType,meleeWeapon,chapterName,parentLegion,marinesCount,world");
             return;

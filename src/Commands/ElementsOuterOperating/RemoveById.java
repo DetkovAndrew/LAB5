@@ -1,5 +1,6 @@
 package Commands.ElementsOuterOperating;
 
+import CollectionManager.CollectionManager;
 import Commands.CommandInterface.CommandInterface;
 import SpaceMarine.SpaceMarine;
 
@@ -8,14 +9,15 @@ import java.util.Vector;
 public class RemoveById implements CommandInterface {
     private final String name = "remove_by_id";
     private final String description = "удалить элемент по id";
-    private final Vector<SpaceMarine> collection;
+    private final CollectionManager collectionManager;
 
-    public RemoveById(Vector<SpaceMarine> collection) {
-        this.collection = collection;
+    public RemoveById(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
     }
 
     @Override
     public void execute(String[] args) {
+        Vector<SpaceMarine> collection = collectionManager.getCollection();
         if (args.length < 1) {
             System.out.println("Использование: remove_by_id id");
             return;
