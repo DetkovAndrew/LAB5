@@ -3,6 +3,7 @@ package Commands.ColllectionOperating;
 import Commands.CommandInterface.CommandInterface;
 import CollectionManager.CollectionManager;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
 public class Info implements CommandInterface {
@@ -16,9 +17,11 @@ public class Info implements CommandInterface {
 
     @Override
     public void execute(String[] args) {
-        Vector<?> collection = collectionManager.getCollection();
-        System.out.println("Тип коллекции: " + collection.getClass().getSimpleName());
-        System.out.println("Количество элементов: " + collection.size());
+        System.out.println("Информация о коллекции:");
+        System.out.println("Тип: " + collectionManager.getCollection().getClass().getSimpleName());
+        System.out.println("Дата инициализации: " +
+                collectionManager.getInitializationDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        System.out.println("Количество элементов: " + collectionManager.getCollection().size());
     }
 
     @Override

@@ -1,15 +1,16 @@
 package SpaceMarine;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Random;
 import java.util.Vector;
 
 public class SpaceMarine implements Comparable<SpaceMarine>{
     private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
-    private String name; //Поле не может быть null, Строка не может быть пустой
+    private final String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
-    private java.time.LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private final java.time.LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     private float health; //Значение поля должно быть больше 0
     private String achievements; //Поле не может быть null
     private Weapon weaponType; //Поле может быть null
@@ -71,8 +72,7 @@ public class SpaceMarine implements Comparable<SpaceMarine>{
         }
 
         public Builder setName(String name) {
-            if (name == null || name.trim().isEmpty())
-                throw new IllegalArgumentException("Имя не может быть пустым");
+            if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Имя не может быть пустым");
             this.name = name;
             return this;
         }
@@ -128,9 +128,9 @@ public class SpaceMarine implements Comparable<SpaceMarine>{
     public static SpaceMarine fromCSV(String csv) {
         String[] data = csv.split(",");
         return new Builder()
-                .setId(Integer.parseInt(data[0]))
-                .setName(data[1])
-                .setCoordinates(new Coordinates(Integer.parseInt(data[2]), Double.parseDouble(data[3])))
+                .setName(data[0])
+                .setCoordinates(new Coordinates(Integer.parseInt(data[1]), Double.parseDouble(data[2])))
+                .setCreationDate(LocalDateTime.parse(data[3]))
                 .setHealth(Float.parseFloat(data[4]))
                 .setAchievements(data[5])
                 .setWeaponType(Weapon.valueOf(data[6]))
@@ -140,9 +140,11 @@ public class SpaceMarine implements Comparable<SpaceMarine>{
     }
 
     public String toCSV() {
-        return String.format("%d,%s,%d,%.1f,%.1f,%s,%s,%s,%s,%s,%d,%s",
-                id, name,
+        return String.format("%d,%s,%d,%.1f,%s,%.1f,%s,%s,%s,%s,%s,%d,%s",
+                id,
+                name,
                 coordinates.getX(), coordinates.getY(),
+                creationDate.format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                 health,
                 achievements,
                 weaponType, meleeWeapon,
@@ -190,5 +192,21 @@ public class SpaceMarine implements Comparable<SpaceMarine>{
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "SpaceMarine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + (coordinates != null ? coordinates.getX() + ", " + coordinates.getY() : "null") +
+                ", creationDate=" + (creationDate != null ? creationDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : "null") +
+                ", health=" + health +
+                ", achievements='" + achievements + '\'' +
+                ", weaponType=" + weaponType +
+                ", meleeWeapon=" + meleeWeapon +
+                ", chapter=" + (chapter != null ? "Chapter{name='" + chapter.getName() + "', parentLegion='" + chapter.getParentLegion() +
+                "', marinesCount=" + chapter.getMarinesCount() + ", world='" + chapter.getWorld() + "'}" : "null") +
+                '}';
     }
 }
