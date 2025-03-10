@@ -8,11 +8,30 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Vector;
 
+/**
+ * Класс CollectionManager управляет коллекцией объектов SpaceMarine.
+ * Отвечает за загрузку данных из файла, хранение коллекции и предоставление информации о ней.
+ * Коллекция инициализируется из файла, указанного в переменной окружения SPACE_MARINES_FILE.
+ *
+ * @author Андрей
+ * @version 1.0
+ * @since 2025-03-10
+ */
 public class CollectionManager {
+    /** Коллекция объектов SpaceMarine. */
     private final Vector<SpaceMarine> collection = new Vector<>();
+
+    /** Дата и время инициализации коллекции. */
     private final LocalDateTime initializationDate;
+
+    /** Путь к файлу, из которого загружается коллекция. */
     private String filePath;
 
+    /**
+     * Конструктор класса CollectionManager.
+     * Инициализирует коллекцию, устанавливает дату инициализации и загружает данные из файла.
+     * Если переменная окружения SPACE_MARINES_FILE не задана, используется файл по умолчанию "data.csv".
+     */
     public CollectionManager() {
         this.initializationDate = LocalDateTime.now();
         filePath = System.getenv("SPACE_MARINES_FILE");
@@ -23,6 +42,13 @@ public class CollectionManager {
         loadCollection();
     }
 
+    /**
+     * Загружает коллекцию из файла, указанного в переменной filePath.
+     * Каждая строка файла должна содержать данные объекта SpaceMarine в формате CSV.
+     * Пропускает строки с некорректным форматом или дублирующимися id.
+     *
+     * @throws IOException если произошла ошибка при чтении файла
+     */
     private void loadCollection() {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -79,10 +105,20 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Возвращает коллекцию объектов SpaceMarine.
+     *
+     * @return Коллекция объектов SpaceMarine.
+     */
     public Vector<SpaceMarine> getCollection() {
         return collection;
     }
 
+    /**
+     * Возвращает дату и время инициализации коллекции.
+     *
+     * @return Дата и время инициализации коллекции.
+     */
     public LocalDateTime getInitializationDate() {
         return initializationDate;
     }

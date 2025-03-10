@@ -12,11 +12,30 @@ import CollectionManager.CollectionManager;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Класс CommandsRegister реализует управление и запись команд.
+ *
+ * @author Андрей
+ * @version 1.0
+ * @since 2025-03-10
+ */
 public class CommandsRegister {
+    /** Карта доступных команд. */
     private static final Map<String, CommandInterface> commandMap = new HashMap<>();
+
+    /** Карта доступных команд. */
     private static CollectionManager collectionManager = new CollectionManager();
+
+    /** filePath для получения доступа к коллекции (через переменную окружения). */
     private static final String filePath = System.getenv("SPACE_MARINES_FILE") != null ? System.getenv("SPACE_MARINES_FILE") : "data.csv";
 
+    /**
+     * Метод, заполняющий карту команд существующими командами.
+     * Производит выход из консольного приложения.
+     * Использует существующий filePath для доступа к коллекции.
+     * Сначала добавляет команды, которые не взаимодействуют напрямую с коллекцией, затем те, которые зависят от коллекции.
+     * Доступ к коллекции осуществляется через класс collectionManager
+     */
     public static void registerCommands() {
         System.out.println("Используемый filePath: " + filePath);
         // Сначала добавляем команды, которые зависят от commandMap
@@ -40,15 +59,9 @@ public class CommandsRegister {
         commandMap.put("exit", new Exit());
     }
 
-    public static void executeCommand(String commandName, String[] args) {
-        CommandInterface command = commandMap.get(commandName);
-        if (command != null) {
-            command.execute(args);
-        } else {
-            System.out.println("Команда не найдена: " + commandName);
-        }
-    }
-
+    /**
+     * Статический метод, возвращающий карту зарегистрированных команд.
+     */
     public static Map<String, CommandInterface> getCommands() {
         return new HashMap<>(commandMap);
     }

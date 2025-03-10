@@ -6,7 +6,21 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Vector;
 
+/**
+ * Главный класс программы, обеспечивающий запуск и управление коллекцией объектов SpaceMarine.
+ * Инициализирует CollectionManager, регистрирует команды и обрабатывает консольный ввод для выполнения команд.
+ *
+ * @author Андрей
+ * @version 1.0
+ * @since 2025-03-10
+ */
 public class Main {
+    /**
+     * Точка входа в программу.
+     * Инициализирует менеджер коллекции, регистрирует команды, запускает консольный цикл для обработки ввода.
+     *
+     * @param args Аргументы командной строки (не используются в данной программе).
+     */
     public static void main(String[] args) {
         // Инициализация CollectionManager для загрузки коллекции
         CollectionManager collectionManager = new CollectionManager();
@@ -15,7 +29,7 @@ public class Main {
         // Регистрация всех команд
         CommandsRegister.registerCommands();
 
-        // Получение мапы команд из реестра
+        // Получение карты команд из реестра
         Map<String, CommandInterface> commands = CommandsRegister.getCommands();
 
         // Запуск консольного ввода
